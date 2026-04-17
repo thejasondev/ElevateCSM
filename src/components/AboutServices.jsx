@@ -108,32 +108,62 @@ export default function AboutServices({ translations }) {
       <section id="about" className="py-32 bg-agency-dark overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            {/* Left — Text (slides from left on mobile, fade-up on desktop) */}
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              <h2 className="text-sm tracking-widest text-agency-cream uppercase font-bold mb-6">{translations['about.title']}</h2>
-              <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-8 leading-tight tracking-tight">
-                ELEVATE <span className="text-agency-cream">CSM</span>
-              </h3>
-              <p className="text-lg md:text-xl text-agency-light/90 leading-relaxed mb-6">
-                {translations['about.desc1']}
-              </p>
-              <p className="text-lg md:text-xl text-agency-cream/80 leading-relaxed font-medium italic">
-                {translations['about.desc2']}
-              </p>
-            </motion.div>
+            {/* Left Column — Text */}
+            <div className="flex flex-col">
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+              >
+                <h2 className="text-sm tracking-widest text-agency-cream uppercase font-bold mb-6">{translations['about.title']}</h2>
+                <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-6 md:mb-8 leading-tight tracking-tight">
+                  ELEVATE <span className="text-agency-cream">CSM</span>
+                </h3>
+              </motion.div>
 
-            {/* Right — Team Photo (slides from right) */}
+              {/* MOBILE ONLY PHOTO — Interleaved between title and descriptions */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                className="relative md:hidden mb-10 mt-2"
+              >
+                <div className="absolute -inset-3 bg-agency-cream/5 rounded-sm blur-xl"></div>
+                <img
+                  src="/fotos-team/team.webp"
+                  alt="ElevateCSM Team"
+                  className="relative w-full rounded-sm shadow-2xl object-cover aspect-[4/3]"
+                  loading="lazy"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+              >
+                <p className="text-lg md:text-xl text-agency-light/90 leading-relaxed mb-6">
+                  {translations['about.desc1']}
+                </p>
+                <p className="text-lg md:text-xl text-agency-light/90 leading-relaxed mb-6">
+                  {translations['about.desc2']}
+                </p>
+                <p className="text-lg md:text-xl text-agency-cream/80 leading-relaxed font-medium italic">
+                  {translations['about.desc3']}
+                </p>
+              </motion.div>
+            </div>
+
+            {/* Right Column — DESKTOP ONLY PHOTO */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-              className="relative"
+              className="relative hidden md:block"
             >
               <div className="absolute -inset-4 bg-agency-cream/10 rounded-sm blur-2xl"></div>
               <img
