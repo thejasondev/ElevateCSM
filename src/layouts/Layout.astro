@@ -1,0 +1,25 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+  lang: string;
+}
+
+const { title, lang } = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+    <meta name="description" content="ElevateCSM - Social Media Video Marketing Agency in USA" />
+		<title>{title} | ElevateCSM</title>
+	</head>
+	<body class="bg-agency-dark text-agency-light antialiased selection:bg-agency-cream selection:text-agency-dark">
+		<slot />
+	</body>
+</html>

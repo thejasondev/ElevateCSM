@@ -1,0 +1,23 @@
+---
+import { FaInstagram, FaTiktok, FaLinkedin } from 'react-icons/fa';
+---
+
+<footer class="bg-agency-dark py-12 border-t border-agency-gray/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center text-agency-gray">
+        <div class="mb-6 md:mb-0 flex items-center gap-4">
+             <img src="/logo.jpg" alt="ElevateCSM Logo" class="w-12 h-12 rounded-full border border-agency-cream object-cover" />
+             <div>
+                <span class="text-2xl font-bold tracking-wider text-agency-light block">ELEVATE<span class="text-agency-cream">CSM</span></span>
+                <span class="text-xs uppercase tracking-widest block mt-1 text-agency-gray">Social Media Agency</span>
+             </div>
+        </div>
+        <div class="flex space-x-6">
+            <a href="#" aria-label="Instagram" class="hover:text-agency-cream transition-colors"><FaInstagram size={24} /></a>
+            <a href="#" aria-label="TikTok" class="hover:text-agency-cream transition-colors"><FaTiktok size={24} /></a>
+            <a href="#" aria-label="LinkedIn" class="hover:text-agency-cream transition-colors"><FaLinkedin size={24} /></a>
+        </div>
+    </div>
+    <div class="text-center mt-12 text-sm text-agency-gray/60">
+        &copy; {new Date().getFullYear()} ElevateCSM. All rights reserved.
+    </div>
+</footer>
