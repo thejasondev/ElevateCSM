@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPhone, FaGlobe } from 'react-icons/fa';
+import { FaCalendarAlt, FaGlobe } from 'react-icons/fa';
 
 /* ── Animated Hamburger Icon ── */
 function HamburgerIcon({ isOpen }) {
@@ -169,11 +169,13 @@ export default function Navbar({ lang, translations, currentPath }) {
                 </a>
               ))}
               <a
-                href="tel:+13051234567"
+                href="https://calendly.com/elevatecsmagency"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-5 py-2.5 bg-agency-cream text-agency-dark font-semibold rounded-sm hover:bg-white transition-colors uppercase tracking-wider text-sm shadow-md focus-visible:ring-2 focus-visible:ring-agency-light focus-visible:outline-none min-h-[44px]"
               >
-                <FaPhone className="text-xs" />
-                {translations['contact.call'] || 'Call Us'}
+                <FaCalendarAlt className="text-xs" />
+                {translations['contact.call'] || 'Book a Call'}
               </a>
               <a
                 href={langHref}
@@ -303,12 +305,14 @@ export default function Navbar({ lang, translations, currentPath }) {
               {/* Bottom CTA */}
               <div className="px-6 py-6 border-t border-agency-gray/10">
                 <a
-                  href="tel:+13051234567"
+                  href="https://calendly.com/elevatecsmagency"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={closeDrawer}
                   className="flex items-center justify-center gap-2.5 w-full py-3.5 bg-agency-cream text-agency-dark font-bold rounded-sm uppercase tracking-wider text-sm hover:bg-white transition-colors shadow-lg focus-visible:ring-2 focus-visible:ring-agency-light focus-visible:outline-none min-h-[48px] active:scale-[0.97] active:transition-transform"
                 >
-                  <FaPhone className="text-xs" />
-                  {translations['contact.call'] || 'Call Us Now'}
+                  <FaCalendarAlt className="text-xs" />
+                  {translations['contact.call'] || 'Book a Call'}
                 </a>
               </div>
             </motion.div>

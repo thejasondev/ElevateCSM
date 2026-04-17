@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FaWhatsapp, FaPhoneAlt } from 'react-icons/fa';
+import { FaWhatsapp, FaCalendarAlt } from 'react-icons/fa';
 
 export default function Contact({ translations }) {
 
@@ -17,16 +17,7 @@ export default function Contact({ translations }) {
         
         <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-12">
            <motion.a 
-             href="tel:+13051234567"
-             whileTap={{ scale: 0.95 }}
-             className="w-full md:w-auto min-h-[56px] px-8 py-4 bg-agency-dark text-white font-bold text-lg uppercase tracking-widest rounded-sm shadow-2xl hover:bg-[#1a1c1d] transition-colors focus-visible:ring-4 focus-visible:ring-agency-dark/30 focus-visible:outline-none flex items-center justify-center gap-3"
-           >
-             <FaPhoneAlt className="text-xl" />
-             {translations['contact.call']}
-           </motion.a>
-           
-           <motion.a 
-             href="https://wa.me/1234567890?text=Hello%20ElevateCSM%2C%20I'd%20like%20to%20know%20more%20about%20your%20services"
+             href="https://wa.me/17869193887?text=Hello%20ElevateCSM%2C%20I'd%20like%20to%20know%20more%20about%20your%20services"
              target="_blank"
              rel="noopener noreferrer"
              whileTap={{ scale: 0.95 }}
@@ -34,6 +25,17 @@ export default function Contact({ translations }) {
            >
              <FaWhatsapp className="text-2xl" />
              {translations['contact.whatsapp']}
+           </motion.a>
+
+           <motion.a 
+             href="https://calendly.com/elevatecsmagency"
+             target="_blank"
+             rel="noopener noreferrer"
+             whileTap={{ scale: 0.95 }}
+             className="w-full md:w-auto min-h-[56px] px-8 py-4 bg-agency-dark text-white font-bold text-lg uppercase tracking-widest rounded-sm shadow-2xl hover:bg-[#1a1c1d] transition-colors focus-visible:ring-4 focus-visible:ring-agency-dark/30 focus-visible:outline-none flex items-center justify-center gap-3"
+           >
+             <FaCalendarAlt className="text-xl" />
+             {translations['contact.call']}
            </motion.a>
         </div>
       </div>
