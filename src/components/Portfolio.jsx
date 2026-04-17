@@ -37,13 +37,13 @@ function ScreenContent({ src, onClick }) {
   return (
     <div className="device-screen" style={{ position: 'relative', cursor: 'pointer' }} onClick={onClick}>
       <video
-        src={src}
+        src={`${src}#t=0.001`}
         muted
         playsInline
+        webkit-playsinline="true"
         preload="metadata"
         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
       />
-      {/* Play overlay — only covers the screen, not the device chrome */}
       <div
         className="portfolio-play-overlay"
         style={{
@@ -56,8 +56,18 @@ function ScreenContent({ src, onClick }) {
           transition: 'background 0.2s',
         }}
       >
-        <div className="portfolio-play-btn">
-          <FaPlay style={{ color: '#2B2E31', fontSize: '16px', marginLeft: '3px' }} />
+        <div className="portfolio-play-btn" style={{ position: 'relative' }}>
+          <FaPlay 
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-40%, -50%)',
+              width: '16px',
+              height: '16px',
+              color: '#2B2E31'
+            }}
+          />
         </div>
       </div>
     </div>
@@ -138,7 +148,7 @@ function VideoModal({ src, onClose }) {
       <button
         onClick={onClose}
         aria-label="Close video"
-        className="absolute top-6 right-6 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none min-h-[44px] min-w-[44px]"
+        className="absolute top-3 right-3 md:top-6 md:right-6 z-50 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md transition-colors text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
       >
         <FaTimes className="text-xl" />
       </button>
