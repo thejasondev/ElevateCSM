@@ -1,0 +1,9 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://elevatecsm.vercel.app/sitemap-index.xml
+
+# Block crawling of admin/api paths
+Disallow: /_astro/

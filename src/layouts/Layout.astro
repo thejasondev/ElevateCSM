@@ -4,9 +4,20 @@ import '../styles/global.css';
 interface Props {
 	title: string;
   lang: string;
+  description?: string;
 }
 
-const { title, lang } = Astro.props;
+const { title, lang, description } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://elevatecsm.vercel.app');
+const alternateEN = new URL(Astro.url.pathname.replace(/^\/es/, '') || '/', Astro.site || 'https://elevatecsm.vercel.app');
+const alternateES = new URL(`/es${Astro.url.pathname === '/' ? '' : Astro.url.pathname.replace(/^\/es/, '')}`, Astro.site || 'https://elevatecsm.vercel.app');
+
+const defaultDescEN = 'ElevateCSM transforms your digital presence into real results. Professional social media video production, content strategy, and brand management for businesses in the USA.';
+const defaultDescES = 'ElevateCSM transforma tu presencia digital en resultados reales. Producción profesional de video para redes sociales, estrategia de contenido y gestión de marca en Estados Unidos.';
+const metaDesc = description || (lang === 'es' ? defaultDescES : defaultDescEN);
+
+const ogTitle = `${title} | ElevateCSM`;
 ---
 
 <!doctype html>
@@ -14,10 +25,82 @@ const { title, lang } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+		<!-- SEO: Title & Description -->
+		<title>{ogTitle}</title>
+		<meta name="description" content={metaDesc} />
+
+		<!-- SEO: Canonical + hreflang alternates -->
+		<link rel="canonical" href={canonicalURL.href} />
+		<link rel="alternate" hreflang="en" href={alternateEN.href} />
+		<link rel="alternate" hreflang="es" href={alternateES.href} />
+		<link rel="alternate" hreflang="x-default" href={alternateEN.href} />
+
+		<!-- Favicons (Root Level) -->
+		<link rel="icon" href="/favicon.ico" sizes="48x48" />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="theme-color" content="#2B2E31" />
+		<meta name="msapplication-TileColor" content="#2B2E31" />
+
+		<!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={ogTitle} />
+		<meta property="og:description" content={metaDesc} />
+		<meta property="og:url" content={canonicalURL.href} />
+		<meta property="og:site_name" content="ElevateCSM" />
+		<meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+		<meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_ES'} />
+		<meta property="og:image" content="/web-app-manifest-512x512.png" />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={ogTitle} />
+		<meta name="twitter:description" content={metaDesc} />
+		<meta name="twitter:image" content="/web-app-manifest-512x512.png" />
+
+		<!-- SEO: Robots -->
+		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+		<!-- Performance: Preconnect to Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+		<!-- JSON-LD Structured Data: LocalBusiness -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "ProfessionalService",
+			"name": "ElevateCSM",
+			"description": lang === 'es'
+				? "Agencia de marketing digital y producción de video para redes sociales en Estados Unidos."
+				: "Social media video production and digital marketing agency in the USA.",
+			"url": "https://elevatecsm.vercel.app",
+			"logo": "https://elevatecsm.vercel.app/logo.jpg",
+			"image": "https://elevatecsm.vercel.app/web-app-manifest-512x512.png",
+			"telephone": "+13051234567",
+			"address": {
+				"@type": "PostalAddress",
+				"addressCountry": "US"
+			},
+			"sameAs": [],
+			"priceRange": "$850 - $2,500 USD/month",
+			"serviceType": [
+				"Social Media Video Production",
+				"Content Strategy",
+				"Social Media Management",
+				"Brand Photography"
+			],
+			"areaServed": {
+				"@type": "Country",
+				"name": "United States"
+			},
+			"inLanguage": [lang]
+		})} />
+
 		<meta name="generator" content={Astro.generator} />
-    <meta name="description" content="ElevateCSM - Social Media Video Marketing Agency in USA" />
-		<title>{title} | ElevateCSM</title>
 	</head>
 	<body class="bg-agency-dark text-agency-light antialiased selection:bg-agency-cream selection:text-agency-dark">
 		<slot />

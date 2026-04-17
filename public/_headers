@@ -1,0 +1,21 @@
+# Static assets — aggressive cache (1 year, immutable)
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Videos — cache for 7 days
+/videos-promo/*
+  Cache-Control: public, max-age=604800
+
+# Images — cache for 30 days
+/fotos-team/*
+  Cache-Control: public, max-age=2592000
+/favicons/*
+  Cache-Control: public, max-age=2592000
+
+# Security headers (all pages)
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
