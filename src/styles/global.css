@@ -18,3 +18,148 @@ body {
   background-color: var(--color-agency-dark);
   color: var(--color-agency-light);
 }
+
+/* ═══════════════════════════════════════════════════
+   Portfolio — Devices.css Layout System (v3)
+   
+   Strategy: Fixed-height wrapper with overflow:hidden 
+   clips the device to its allocated space. The device 
+   is absolutely centered via translate(-50%, -50%).
+   ═══════════════════════════════════════════════════ */
+
+/* Grid */
+.portfolio-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+/* Card — contains label on top + device below */
+.portfolio-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Device wrapper — reserved spacer box with overflow clip */
+.portfolio-device-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* Absolute centering for all devices */
+.portfolio-device-wrapper .device {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  z-index: 1;
+}
+
+/* Category label — sits ABOVE the device, always visible */
+.portfolio-label {
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-agency-cream);
+  text-align: center;
+}
+
+/* Play overlay hover effect */
+.portfolio-play-overlay:hover {
+  background: rgba(0,0,0,0.55) !important;
+}
+
+/* Play button */
+.portfolio-play-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(234, 226, 202, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.portfolio-play-overlay:hover .portfolio-play-btn {
+  transform: scale(1.15);
+}
+
+/* ─── Phone (<768px) — 1 column, iPhone ─── */
+@media (max-width: 767px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    max-width: 340px;
+    margin: 0 auto;
+    gap: 2rem;
+  }
+  .portfolio-device-wrapper {
+    height: 470px;
+  }
+  .portfolio-device-wrapper .device {
+    transform: translate(-50%, -50%) scale(0.52);
+  }
+  .portfolio-play-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* ─── Tablet (768–1023) — 1 column, iPad ─── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    max-width: 560px;
+    margin: 0 auto;
+    gap: 3rem;
+  }
+  .portfolio-device-wrapper {
+    height: 520px;
+  }
+  .portfolio-device-wrapper .device {
+    transform: translate(-50%, -50%) scale(0.62);
+  }
+}
+
+/* ─── Desktop (≥1024) — 2 columns, MacBook ─── */
+@media (min-width: 1024px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4rem 3rem;
+  }
+  .portfolio-device-wrapper {
+    height: 340px;
+  }
+  .portfolio-device-wrapper .device {
+    transform: translate(-50%, -50%) scale(0.60);
+  }
+}
+
+/* ─── Large Desktop (≥1440) ─── */
+@media (min-width: 1440px) {
+  .portfolio-grid {
+    gap: 5rem 4rem;
+  }
+  .portfolio-device-wrapper {
+    height: 400px;
+  }
+  .portfolio-device-wrapper .device {
+    transform: translate(-50%, -50%) scale(0.70);
+  }
+}
+
+/* Force device-screen to fill the frame properly */
+.device-screen {
+  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+}

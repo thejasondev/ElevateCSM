@@ -1,50 +1,102 @@
 import { motion } from 'framer-motion';
-import { FaVideo, FaShareAlt, FaBullhorn, FaCheck, FaStar } from 'react-icons/fa';
+import { FaVideo, FaCut, FaShareAlt, FaStar } from 'react-icons/fa';
+
+function SectionBlock({ title, items, featured }) {
+  return (
+    <div className={`pt-5 pb-2 border-t ${featured ? 'border-agency-dark/10' : 'border-agency-gray/10'}`}>
+      <p className={`text-[10px] font-bold tracking-widest mb-3 ${featured ? 'text-agency-dark/50' : 'text-agency-cream/60'}`}>
+        {title}
+      </p>
+      <ul className="space-y-1.5">
+        {items.map((item, i) => (
+          <li key={i} className={`text-sm leading-relaxed ${featured ? 'text-agency-dark/80' : 'text-agency-light/75'}`}>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export default function AboutServices({ translations }) {
   const packages = [
     {
+      key: 'starter',
       name: translations['pkg.starter.name'],
+      tagline: translations['pkg.starter.tagline'],
       price: translations['pkg.starter.price'],
-      desc: translations['pkg.starter.desc'],
-      icon: <FaShareAlt className="text-3xl text-agency-cream" />,
-      features: [
-        translations['pkg.starter.f1'],
-        translations['pkg.starter.f2'],
-        translations['pkg.starter.f3'],
-        translations['pkg.starter.f4'],
-      ],
+      period: translations['pkg.starter.period'],
       featured: false,
+      badge: null,
+      sections: [
+        {
+          icon: <FaVideo className="text-agency-cream/40 text-xs" />,
+          title: translations['pkg.starter.s1.title'],
+          items: [translations['pkg.starter.s1.f1'], translations['pkg.starter.s1.f2']],
+        },
+        {
+          icon: <FaCut className="text-agency-cream/40 text-xs" />,
+          title: translations['pkg.starter.s2.title'],
+          items: [translations['pkg.starter.s2.f1'], translations['pkg.starter.s2.f2'], translations['pkg.starter.s2.f3']],
+        },
+        {
+          icon: <FaShareAlt className="text-agency-cream/40 text-xs" />,
+          title: translations['pkg.starter.s3.title'],
+          items: [translations['pkg.starter.s3.f1'], translations['pkg.starter.s3.f2']],
+        },
+      ],
     },
     {
+      key: 'growth',
       name: translations['pkg.growth.name'],
+      tagline: translations['pkg.growth.tagline'],
       price: translations['pkg.growth.price'],
-      desc: translations['pkg.growth.desc'],
-      icon: <FaVideo className="text-3xl text-agency-dark" />,
-      features: [
-        translations['pkg.growth.f1'],
-        translations['pkg.growth.f2'],
-        translations['pkg.growth.f3'],
-        translations['pkg.growth.f4'],
-        translations['pkg.growth.f5'],
-      ],
+      period: translations['pkg.growth.period'],
       featured: true,
       badge: translations['pkg.popular'],
+      sections: [
+        {
+          icon: <FaVideo className="text-agency-dark/30 text-xs" />,
+          title: translations['pkg.growth.s1.title'],
+          items: [translations['pkg.growth.s1.f1'], translations['pkg.growth.s1.f2']],
+        },
+        {
+          icon: <FaCut className="text-agency-dark/30 text-xs" />,
+          title: translations['pkg.growth.s2.title'],
+          items: [translations['pkg.growth.s2.f1'], translations['pkg.growth.s2.f2'], translations['pkg.growth.s2.f3']],
+        },
+        {
+          icon: <FaShareAlt className="text-agency-dark/30 text-xs" />,
+          title: translations['pkg.growth.s3.title'],
+          items: [translations['pkg.growth.s3.f1'], translations['pkg.growth.s3.f2']],
+        },
+      ],
     },
     {
+      key: 'elite',
       name: translations['pkg.elite.name'],
+      tagline: translations['pkg.elite.tagline'],
       price: translations['pkg.elite.price'],
-      desc: translations['pkg.elite.desc'],
-      icon: <FaBullhorn className="text-3xl text-agency-cream" />,
-      features: [
-        translations['pkg.elite.f1'],
-        translations['pkg.elite.f2'],
-        translations['pkg.elite.f3'],
-        translations['pkg.elite.f4'],
-        translations['pkg.elite.f5'],
-        translations['pkg.elite.f6'],
-      ],
+      period: translations['pkg.elite.period'],
       featured: false,
+      badge: translations['pkg.premium'],
+      sections: [
+        {
+          icon: <FaVideo className="text-agency-cream/40 text-xs" />,
+          title: translations['pkg.elite.s1.title'],
+          items: [translations['pkg.elite.s1.f1'], translations['pkg.elite.s1.f2']],
+        },
+        {
+          icon: <FaCut className="text-agency-cream/40 text-xs" />,
+          title: translations['pkg.elite.s2.title'],
+          items: [translations['pkg.elite.s2.f1'], translations['pkg.elite.s2.f2'], translations['pkg.elite.s2.f3']],
+        },
+        {
+          icon: <FaShareAlt className="text-agency-cream/40 text-xs" />,
+          title: translations['pkg.elite.s3.title'],
+          items: [translations['pkg.elite.s3.f1']],
+        },
+      ],
     },
   ];
 
@@ -107,53 +159,61 @@ export default function AboutServices({ translations }) {
             <div className="w-20 h-1 bg-agency-cream mx-auto"></div>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
             {packages.map((pkg, index) => (
               <motion.div
-                key={index}
+                key={pkg.key}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.35, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
                 className={`relative rounded-sm overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl flex flex-col ${
                   pkg.featured
-                    ? 'bg-agency-cream text-agency-dark shadow-xl scale-[1.02]'
+                    ? 'bg-agency-cream text-agency-dark shadow-xl md:scale-[1.03]'
                     : 'bg-agency-dark border border-agency-gray/20'
                 }`}
               >
+                {/* Badge */}
                 {pkg.badge && (
-                  <div className="absolute top-0 right-0 bg-agency-dark text-agency-cream px-4 py-1.5 text-xs font-bold uppercase tracking-widest flex items-center gap-1.5">
-                    <FaStar className="text-[10px]" /> {pkg.badge}
+                  <div className={`absolute top-0 right-0 px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 ${
+                    pkg.featured
+                      ? 'bg-agency-dark text-agency-cream'
+                      : 'bg-agency-cream text-agency-dark'
+                  }`}>
+                    <FaStar className="text-[8px]" /> {pkg.badge}
                   </div>
                 )}
 
-                <div className="p-8 pb-6">
-                  <div className="mb-4">{pkg.icon}</div>
-                  <h3 className={`text-2xl font-bold mb-2 ${pkg.featured ? 'text-agency-dark' : 'text-white'}`}>
+                {/* Header */}
+                <div className="p-8 pb-4 text-center">
+                  <h3 className={`text-2xl font-bold mb-1 ${pkg.featured ? 'text-agency-dark' : 'text-white'}`}>
                     {pkg.name}
                   </h3>
-                  <p className={`text-3xl font-extrabold mb-4 ${pkg.featured ? 'text-agency-dark' : 'text-agency-cream'}`}>
+                  <p className={`text-sm mb-6 ${pkg.featured ? 'text-agency-dark/60' : 'text-agency-gray'}`}>
+                    {pkg.tagline}
+                  </p>
+                  <p className={`text-5xl font-extrabold tracking-tight ${pkg.featured ? 'text-agency-dark' : 'text-white'}`}>
                     {pkg.price}
                   </p>
-                  <p className={`leading-relaxed text-sm mb-6 ${pkg.featured ? 'text-agency-dark/70' : 'text-agency-gray'}`}>
-                    {pkg.desc}
+                  <p className={`text-xs tracking-widest font-bold mt-1 ${pkg.featured ? 'text-agency-dark/50' : 'text-agency-gray/70'}`}>
+                    {pkg.period}
                   </p>
                 </div>
 
-                <div className={`px-8 pb-8 flex-1 border-t ${pkg.featured ? 'border-agency-dark/10' : 'border-agency-gray/10'}`}>
-                  <ul className="space-y-3 pt-6">
-                    {pkg.features.map((feat, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <FaCheck className={`text-xs mt-1.5 flex-shrink-0 ${pkg.featured ? 'text-agency-dark' : 'text-agency-cream'}`} />
-                        <span className={`text-sm ${pkg.featured ? 'text-agency-dark/80' : 'text-agency-light/80'}`}>
-                          {feat}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                {/* Service sections */}
+                <div className="px-8 pb-4 flex-1 space-y-4">
+                  {pkg.sections.map((section, si) => (
+                    <SectionBlock
+                      key={si}
+                      title={section.title}
+                      items={section.items}
+                      featured={pkg.featured}
+                    />
+                  ))}
                 </div>
 
-                <div className="px-8 pb-8">
+                {/* CTA */}
+                <div className="px-8 pb-8 pt-4">
                   <motion.a
                     href="tel:+13051234567"
                     whileTap={{ scale: 0.95 }}
