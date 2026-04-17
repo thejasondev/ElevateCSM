@@ -23,7 +23,7 @@ export default function TeamMembers({ translations }) {
   ];
 
   return (
-    <section className="py-24 bg-agency-dark">
+    <section className="py-24 bg-agency-dark overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -39,18 +39,22 @@ export default function TeamMembers({ translations }) {
         <div className="space-y-24 md:space-y-32">
           {members.map((member, index) => {
             const isEven = index % 2 === 0;
+            /* Photo slides from left on even rows, from right on odd rows */
+            const photoX = isEven ? -50 : 50;
+            /* Text slides from the opposite direction */
+            const textX = isEven ? 50 : -50;
 
             return (
               <div
                 key={member.name}
                 className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center"
               >
-                {/* Photo — fade + subtle Y only (no lateral shift) */}
+                {/* Photo — slides in laterally */}
                 <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: photoX }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+                  transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
                   className={`relative ${isEven ? 'md:order-1' : 'md:order-2'} order-1`}
                 >
                   <div className="absolute -inset-3 bg-agency-cream/5 rounded-sm blur-xl"></div>
@@ -62,12 +66,12 @@ export default function TeamMembers({ translations }) {
                   />
                 </motion.div>
 
-                {/* Content — fade + subtle Y only */}
+                {/* Content — slides from opposite direction */}
                 <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: textX }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.45, delay: 0.08, ease: [0.25, 0.1, 0.25, 1] }}
+                  transition={{ duration: 0.55, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
                   className={`${isEven ? 'md:order-2' : 'md:order-1'} order-2`}
                 >
                   <p className="text-sm tracking-widest text-agency-cream uppercase font-bold mb-3">

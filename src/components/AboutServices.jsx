@@ -100,17 +100,20 @@ export default function AboutServices({ translations }) {
     },
   ];
 
+  /* Direction helper: left(-1), right(+1), left(-1) for index 0,1,2... */
+  const getSlideDirection = (index) => (index % 2 === 0 ? -1 : 1);
+
   return (
     <>
-      <section id="about" className="py-32 bg-agency-dark">
+      <section id="about" className="py-32 bg-agency-dark overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            {/* Left — Text */}
+            {/* Left — Text (slides from left on mobile, fade-up on desktop) */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
             >
               <h2 className="text-sm tracking-widest text-agency-cream uppercase font-bold mb-6">{translations['about.title']}</h2>
               <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-8 leading-tight tracking-tight">
@@ -124,12 +127,12 @@ export default function AboutServices({ translations }) {
               </p>
             </motion.div>
 
-            {/* Right — Team Photo */}
+            {/* Right — Team Photo (slides from right) */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.45, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
               className="relative"
             >
               <div className="absolute -inset-4 bg-agency-cream/10 rounded-sm blur-2xl"></div>
@@ -163,10 +166,10 @@ export default function AboutServices({ translations }) {
             {packages.map((pkg, index) => (
               <motion.div
                 key={pkg.key}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: getSlideDirection(index) * 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.35, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={{ duration: 0.5, delay: index * 0.12, ease: [0.25, 0.1, 0.25, 1] }}
                 className={`relative rounded-sm overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl flex flex-col ${
                   pkg.featured
                     ? 'bg-agency-cream text-agency-dark shadow-xl md:scale-[1.03]'
