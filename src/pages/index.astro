@@ -17,9 +17,9 @@ const translations = ui[lang];
 	<Navbar client:load lang={lang} translations={translations} currentPath={Astro.url.pathname} />
 	<main>
 		<Hero client:load translations={translations} />
-		<AboutServices client:visible translations={translations} />
 		<TeamMembers client:visible translations={translations} />
 		<Portfolio client:visible translations={translations} />
+		<AboutServices client:visible translations={translations} />
 		<Contact client:visible translations={translations} />
 	</main>
   <Footer />

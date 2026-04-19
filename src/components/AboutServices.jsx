@@ -105,78 +105,6 @@ export default function AboutServices({ translations }) {
 
   return (
     <>
-      <section id="about" className="py-32 bg-agency-dark overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            {/* Left Column — Text */}
-            <div className="flex flex-col">
-              <motion.div
-                initial={{ opacity: 0, x: -40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-              >
-                <h2 className="text-sm tracking-widest text-agency-cream uppercase font-bold mb-6">{translations['about.title']}</h2>
-                <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-6 md:mb-8 leading-tight tracking-tight">
-                  ELEVATE <span className="text-agency-cream">CSM</span>
-                </h3>
-              </motion.div>
-
-              {/* MOBILE ONLY PHOTO — Interleaved between title and descriptions */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                className="relative md:hidden mb-10 mt-2"
-              >
-                <div className="absolute -inset-3 bg-agency-cream/5 rounded-sm blur-xl"></div>
-                <img
-                  src="/fotos-team/team.webp"
-                  alt="ElevateCSM Team"
-                  className="relative w-full rounded-sm shadow-2xl object-cover aspect-[4/3]"
-                  loading="lazy"
-                />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: -40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
-              >
-                <p className="text-lg md:text-xl text-agency-light/90 leading-relaxed mb-6">
-                  {translations['about.desc1']}
-                </p>
-                <p className="text-lg md:text-xl text-agency-light/90 leading-relaxed mb-6">
-                  {translations['about.desc2']}
-                </p>
-                <p className="text-lg md:text-xl text-agency-cream/80 leading-relaxed font-medium italic">
-                  {translations['about.desc3']}
-                </p>
-              </motion.div>
-            </div>
-
-            {/* Right Column — DESKTOP ONLY PHOTO */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-              className="relative hidden md:block"
-            >
-              <div className="absolute -inset-4 bg-agency-cream/10 rounded-sm blur-2xl"></div>
-              <img
-                src="/fotos-team/team.webp"
-                alt="ElevateCSM Team"
-                className="relative w-full rounded-sm shadow-2xl object-cover aspect-[4/3]"
-                loading="lazy"
-              />
-              <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-t from-agency-dark to-transparent rounded-b-sm"></div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
 
       <section id="services" className="py-24 bg-[#232528] relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-agency-cream rounded-full mix-blend-overlay filter blur-3xl opacity-5"></div>
@@ -225,7 +153,7 @@ export default function AboutServices({ translations }) {
                   <p className={`text-sm mb-6 ${pkg.featured ? 'text-agency-dark/60' : 'text-agency-gray'}`}>
                     {pkg.tagline}
                   </p>
-                  <p className={`text-5xl font-extrabold tracking-tight ${pkg.featured ? 'text-agency-dark' : 'text-white'}`}>
+                  <p className={`text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight ${pkg.featured ? 'text-agency-dark' : 'text-white'}`}>
                     {pkg.price}
                   </p>
                   <p className={`text-xs tracking-widest font-bold mt-1 ${pkg.featured ? 'text-agency-dark/50' : 'text-agency-gray/70'}`}>
@@ -248,7 +176,9 @@ export default function AboutServices({ translations }) {
                 {/* CTA */}
                 <div className="px-8 pb-8 pt-4">
                   <motion.a
-                    href="tel:+13051234567"
+                    href="https://calendly.com/elevatecsmagency"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     whileTap={{ scale: 0.95 }}
                     className={`block w-full text-center py-3.5 rounded-sm font-bold uppercase tracking-widest text-sm transition-colors min-h-[48px] flex items-center justify-center focus-visible:ring-2 focus-visible:outline-none ${
                       pkg.featured
