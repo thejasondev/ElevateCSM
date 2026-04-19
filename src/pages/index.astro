@@ -5,6 +5,8 @@ import Hero from '../components/Hero.jsx';
 import AboutServices from '../components/AboutServices.jsx';
 import TeamMembers from '../components/TeamMembers.jsx';
 import Portfolio from '../components/Portfolio.jsx';
+import Metrics from '../components/Metrics.jsx';
+import Testimonials from '../components/Testimonials.jsx';
 import Contact from '../components/Contact.jsx';
 import Footer from '../components/Footer.astro';
 import { ui } from '../i18n/ui';
@@ -13,12 +15,14 @@ const lang = 'en';
 const translations = ui[lang];
 ---
 
-<Layout title="Home" lang={lang}>
+<Layout title="ElevateCSM" lang={lang}>
 	<Navbar client:load lang={lang} translations={translations} currentPath={Astro.url.pathname} />
 	<main>
 		<Hero client:load translations={translations} />
 		<TeamMembers client:visible translations={translations} />
 		<Portfolio client:visible translations={translations} />
+		<Metrics client:visible translations={translations} />
+		<Testimonials client:visible translations={translations} />
 		<AboutServices client:visible translations={translations} />
 		<Contact client:visible translations={translations} />
 	</main>
