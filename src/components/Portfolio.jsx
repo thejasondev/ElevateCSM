@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaPlay, FaTimes } from 'react-icons/fa';
 import 'devices.css/dist/devices.min.css';
 
-const CATEGORIES = ['all', 'gym', 'bartender', 'auto', 'construction'];
+const CATEGORIES = ['all', 'gym', 'bartender', 'auto', 'construction', 'tattoo'];
 
 const portfolioItems = [
   { id: 1, category: 'gym',          src: '/videos-promo/Gym/gym.mp4' },
@@ -14,6 +14,8 @@ const portfolioItems = [
   { id: 6, category: 'auto',         src: '/videos-promo/Dealer/dealer.mp4' },
   { id: 7, category: 'auto',         src: '/videos-promo/Dealer/dealer1.mp4' },
   { id: 8, category: 'construction', src: '/videos-promo/Construction/construction.mp4' },
+  { id: 9, category: 'tattoo',       src: '/videos-promo/Tattoo Shop/tattoo1.mp4' },
+  { id: 10, category: 'tattoo',      src: '/videos-promo/Tattoo Shop/tattoo2.mp4' },
 ];
 
 function useDeviceType() {
