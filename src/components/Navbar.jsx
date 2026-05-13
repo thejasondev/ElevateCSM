@@ -106,11 +106,15 @@ export default function Navbar({ lang, translations, currentPath }) {
 
   const closeDrawer = useCallback(() => setIsOpen(false), []);
 
+  /* Build base path for anchor links — ensures they always point to homepage sections */
+  const isHome = currentPath === '/' || currentPath === '/es' || currentPath === '/es/';
+  const homeBase = lang === 'es' ? '/es' : '/';
+
   const navLinks = [
-    { name: translations['nav.home'], href: '#home' },
-    { name: translations['nav.about'], href: '#about' },
-    { name: translations['nav.services'], href: '#services' },
-    { name: translations['nav.portfolio'], href: '#portfolio' },
+    { name: translations['nav.home'], href: isHome ? '#home' : `${homeBase}#home` },
+    { name: translations['nav.about'], href: isHome ? '#about' : `${homeBase}#about` },
+    { name: translations['nav.services'], href: isHome ? '#services' : `${homeBase}#services` },
+    { name: translations['nav.portfolio'], href: isHome ? '#portfolio' : `${homeBase}#portfolio` },
   ];
 
   let langHref = currentPath;
@@ -283,7 +287,7 @@ export default function Navbar({ lang, translations, currentPath }) {
 
                 {/* Contact link */}
                 <motion.a
-                  href="#contact"
+                  href={isHome ? '#contact' : `${homeBase}#contact`}
                   variants={linkItemVariants}
                   onClick={closeDrawer}
                   className="block px-4 py-3.5 text-lg font-medium text-agency-cream hover:text-white hover:bg-agency-cream/5 rounded-sm transition-colors focus-visible:ring-2 focus-visible:ring-agency-cream focus-visible:outline-none"

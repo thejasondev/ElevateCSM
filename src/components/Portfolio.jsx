@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPlay, FaTimes } from 'react-icons/fa';
+import { FaPlay, FaTimes, FaArrowRight } from 'react-icons/fa';
 import 'devices.css/dist/devices.min.css';
 
-const CATEGORIES = ['all', 'gym', 'bartender', 'auto', 'construction', 'tattoo'];
+export const CATEGORIES = ['all', 'gym', 'bartender', 'auto', 'construction', 'tattoo'];
 
-const portfolioItems = [
+export const portfolioItems = [
   { id: 1, category: 'gym',          src: '/videos-promo/Gym/gym.mp4' },
   { id: 2, category: 'bartender',    src: '/videos-promo/Bartender/bartender.mp4' },
   { id: 3, category: 'bartender',    src: '/videos-promo/Bartender/bartender1.mp4' },
@@ -16,9 +16,17 @@ const portfolioItems = [
   { id: 8, category: 'construction', src: '/videos-promo/Construction/construction.mp4' },
   { id: 9, category: 'tattoo',       src: '/videos-promo/Tattoo Shop/tattoo1.mp4' },
   { id: 10, category: 'tattoo',      src: '/videos-promo/Tattoo Shop/tattoo2.mp4' },
+  { id: 11, category: 'gym',         src: '/videos-promo/Gym/gym1.mp4' },
+  { id: 12, category: 'gym',         src: '/videos-promo/Gym/gym2.mp4' },
+  { id: 13, category: 'gym',         src: '/videos-promo/Gym/gym3.mp4' },
+  { id: 14, category: 'gym',         src: '/videos-promo/Gym/gym4.mp4' },
+  { id: 15, category: 'construction', src: '/videos-promo/Construction/construction1.mp4' },
 ];
 
-function useDeviceType() {
+/* 4 curated showcase videos — one per category for homepage preview */
+const PREVIEW_IDS = [1, 2, 6, 8]; // gym, bartender, dealer, construction
+
+export function useDeviceType() {
   const [device, setDevice] = useState('desktop');
   useEffect(() => {
     const check = () => {
@@ -35,7 +43,7 @@ function useDeviceType() {
 }
 
 /* ── Screen Content: video + play overlay (lives INSIDE device-frame) ── */
-function ScreenContent({ src, onClick }) {
+export function ScreenContent({ src, onClick }) {
   return (
     <div className="device-screen" style={{ position: 'relative', cursor: 'pointer' }} onClick={onClick}>
       <video
@@ -116,14 +124,14 @@ function IPhoneFrame({ children }) {
   );
 }
 
-function DeviceWrapper({ device, children }) {
+export function DeviceWrapper({ device, children }) {
   if (device === 'phone')  return <IPhoneFrame>{children}</IPhoneFrame>;
   if (device === 'tablet') return <IPadFrame>{children}</IPadFrame>;
   return <MacBookFrame>{children}</MacBookFrame>;
 }
 
 /* ── Video Modal (fullscreen with audio) ── */
-function VideoModal({ src, onClose }) {
+export function VideoModal({ src, onClose }) {
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -177,15 +185,17 @@ function VideoModal({ src, onClose }) {
   );
 }
 
-/* ── Main Portfolio ── */
-export default function Portfolio({ translations }) {
+/* ── Main Portfolio (Homepage Preview Mode by default) ── */
+export default function Portfolio({ translations, mode = 'preview' }) {
   const [active, setActive] = useState('all');
   const [modalSrc, setModalSrc] = useState(null);
   const device = useDeviceType();
 
-  const filtered = active === 'all'
-    ? portfolioItems
-    : portfolioItems.filter(i => i.category === active);
+  const isPreview = mode === 'preview';
+
+  const items = isPreview
+    ? portfolioItems.filter(item => PREVIEW_IDS.includes(item.id))
+    : (active === 'all' ? portfolioItems : portfolioItems.filter(i => i.category === active));
 
   const openModal = useCallback((src) => setModalSrc(src), []);
   const closeModal = useCallback(() => setModalSrc(null), []);
@@ -211,27 +221,29 @@ export default function Portfolio({ translations }) {
             <p className="text-agency-gray text-lg">{translations['portfolio.subtitle']}</p>
           </motion.div>
 
-          {/* Category Filters */}
-          <div className="flex flex-wrap justify-center gap-3 mb-16">
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActive(cat)}
-                className={`px-5 py-2.5 rounded-sm text-sm font-bold uppercase tracking-widest transition-all min-h-[44px] focus-visible:ring-2 focus-visible:ring-agency-cream focus-visible:outline-none ${
-                  active === cat
-                    ? 'bg-agency-cream text-agency-dark shadow-lg'
-                    : 'border border-agency-gray/30 text-agency-gray hover:text-white hover:border-white'
-                }`}
-              >
-                {translations[`portfolio.${cat}`]}
-              </button>
-            ))}
-          </div>
+          {/* Category Filters — only in full mode */}
+          {!isPreview && (
+            <div className="flex flex-wrap justify-center gap-3 mb-16">
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setActive(cat)}
+                  className={`px-5 py-2.5 rounded-sm text-sm font-bold uppercase tracking-widest transition-all min-h-[44px] focus-visible:ring-2 focus-visible:ring-agency-cream focus-visible:outline-none ${
+                    active === cat
+                      ? 'bg-agency-cream text-agency-dark shadow-lg'
+                      : 'border border-agency-gray/30 text-agency-gray hover:text-white hover:border-white'
+                  }`}
+                >
+                  {translations[`portfolio.${cat}`]}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Video Grid */}
           <div className="portfolio-grid">
             <AnimatePresence>
-              {filtered.map((item, index) => (
+              {items.map((item, index) => (
                 <motion.div
                   key={item.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -253,6 +265,25 @@ export default function Portfolio({ translations }) {
               ))}
             </AnimatePresence>
           </div>
+
+          {/* "View More" CTA — only in preview mode */}
+          {isPreview && (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="text-center mt-16"
+            >
+              <a
+                href="/portfolio"
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-agency-cream text-agency-dark font-bold uppercase tracking-widest text-sm rounded-sm hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 min-h-[52px]"
+              >
+                {translations['portfolio.viewMore'] || 'View All Work'}
+                <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
+              </a>
+            </motion.div>
+          )}
         </div>
       </section>
 

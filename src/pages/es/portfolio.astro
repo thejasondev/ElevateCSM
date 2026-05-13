@@ -1,0 +1,18 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.jsx';
+import Portfolio from '../../components/Portfolio.jsx';
+import Footer from '../../components/Footer.astro';
+import { ui } from '../../i18n/ui';
+
+const lang = 'es';
+const translations = ui[lang];
+---
+
+<Layout title="Portafolio" lang={lang} description="Explora nuestro portafolio completo de contenido en video para redes sociales. Resultados reales para gimnasios, bartenders, dealers de autos, construcción y más.">
+	<Navbar client:load lang={lang} translations={translations} currentPath={Astro.url.pathname} />
+	<main class="pt-20">
+		<Portfolio client:load translations={translations} mode="full" />
+	</main>
+	<Footer />
+</Layout>
