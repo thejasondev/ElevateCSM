@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPlay, FaTimes, FaArrowRight } from 'react-icons/fa';
+import { FaPlay, FaTimes, FaArrowRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import 'devices.css/dist/devices.min.css';
 
 export const CATEGORIES = ['all', 'gym', 'bartender', 'auto', 'construction', 'tattoo'];
@@ -185,6 +185,116 @@ export function VideoModal({ src, onClose }) {
   );
 }
 
+/* ── Mobile Video Carousel ── */
+function MobileVideoCarousel({ items, translations, device, openModal }) {
+  const [current, setCurrent] = useState(0);
+  const total = items.length;
+
+  const next = useCallback(() => setCurrent((p) => (p + 1) % total), [total]);
+  const prev = useCallback(() => setCurrent((p) => (p - 1 + total) % total), [total]);
+
+  /* Auto-advance every 4s */
+  useEffect(() => {
+    const timer = setInterval(next, 4000);
+    return () => clearInterval(timer);
+  }, [next]);
+
+  const [direction, setDirection] = useState(1);
+
+  const handleNext = () => { setDirection(1); next(); };
+  const handlePrev = () => { setDirection(-1); prev(); };
+
+  /* Swipe support */
+  const [touchStart, setTouchStart] = useState(null);
+  const handleTouchStart = (e) => setTouchStart(e.touches[0].clientX);
+  const handleTouchEnd = (e) => {
+    if (touchStart === null) return;
+    const diff = touchStart - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? handleNext() : handlePrev();
+    }
+    setTouchStart(null);
+  };
+
+  const slideVariants = {
+    enter: (dir) => ({ x: dir > 0 ? 250 : -250, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (dir) => ({ x: dir > 0 ? -250 : 250, opacity: 0 }),
+  };
+
+  const item = items[current];
+
+  return (
+    <div className="relative">
+      {/* Carousel viewport */}
+      <div
+        className="overflow-hidden relative"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <AnimatePresence initial={false} custom={direction} mode="wait">
+          <motion.div
+            key={item.id}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            className="w-full"
+          >
+            <div className="portfolio-card">
+              <p className="portfolio-label">
+                {translations[`portfolio.${item.category}`]}
+              </p>
+              <div className="portfolio-device-wrapper">
+                <DeviceWrapper device={device}>
+                  <ScreenContent src={item.src} onClick={() => openModal(item.src)} />
+                </DeviceWrapper>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Navigation arrows + dots */}
+      <div className="flex items-center justify-between mt-6">
+        <button
+          onClick={handlePrev}
+          aria-label="Previous video"
+          className="w-10 h-10 flex items-center justify-center rounded-full border border-white/15 text-agency-light/70 hover:text-white hover:border-agency-cream/40 transition-colors active:scale-95"
+        >
+          <FaChevronLeft className="text-xs" />
+        </button>
+
+        {/* Dot indicators */}
+        <div className="flex items-center gap-2">
+          {items.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => { setDirection(idx > current ? 1 : -1); setCurrent(idx); }}
+              aria-label={`Go to video ${idx + 1}`}
+              className={`rounded-full transition-all duration-300 ${
+                idx === current
+                  ? 'w-6 h-2 bg-agency-cream'
+                  : 'w-2 h-2 bg-white/20 hover:bg-white/40'
+              }`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={handleNext}
+          aria-label="Next video"
+          className="w-10 h-10 flex items-center justify-center rounded-full border border-white/15 text-agency-light/70 hover:text-white hover:border-agency-cream/40 transition-colors active:scale-95"
+        >
+          <FaChevronRight className="text-xs" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 /* ── Main Portfolio (Homepage Preview Mode by default) ── */
 export default function Portfolio({ translations, mode = 'preview' }) {
   const [active, setActive] = useState('all');
@@ -192,6 +302,7 @@ export default function Portfolio({ translations, mode = 'preview' }) {
   const device = useDeviceType();
 
   const isPreview = mode === 'preview';
+  const isMobile = device === 'phone';
 
   const items = isPreview
     ? portfolioItems.filter(item => PREVIEW_IDS.includes(item.id))
@@ -240,31 +351,40 @@ export default function Portfolio({ translations, mode = 'preview' }) {
             </div>
           )}
 
-          {/* Video Grid */}
-          <div className="portfolio-grid">
-            <AnimatePresence>
-              {items.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.3, delay: index * 0.04, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="portfolio-card"
-                >
-                  <p className="portfolio-label">
-                    {translations[`portfolio.${item.category}`]}
-                  </p>
+          {/* Mobile Carousel (homepage only) | Grid (desktop + full page) */}
+          {isMobile && isPreview ? (
+            <MobileVideoCarousel
+              items={items}
+              translations={translations}
+              device={device}
+              openModal={openModal}
+            />
+          ) : (
+            <div className="portfolio-grid">
+              <AnimatePresence>
+                {items.map((item, index) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.3, delay: index * 0.04, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="portfolio-card"
+                  >
+                    <p className="portfolio-label">
+                      {translations[`portfolio.${item.category}`]}
+                    </p>
 
-                  <div className="portfolio-device-wrapper">
-                    <DeviceWrapper device={device}>
-                      <ScreenContent src={item.src} onClick={() => openModal(item.src)} />
-                    </DeviceWrapper>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
+                    <div className="portfolio-device-wrapper">
+                      <DeviceWrapper device={device}>
+                        <ScreenContent src={item.src} onClick={() => openModal(item.src)} />
+                      </DeviceWrapper>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          )}
 
           {/* "View More" CTA — only in preview mode */}
           {isPreview && (

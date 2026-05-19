@@ -105,5 +105,9 @@ const ogTitle = `${title} | ElevateCSM`;
 	</head>
 	<body class="bg-agency-dark text-agency-light antialiased selection:bg-agency-cream selection:text-agency-dark">
 		<slot />
+		<script>
+			import { inject } from '@vercel/analytics';
+			inject();
+		</script>
 	</body>
 </html>
