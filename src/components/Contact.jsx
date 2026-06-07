@@ -23,7 +23,7 @@ export default function Contact({ translations }) {
 
         <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-12">
           <motion.a
-            href="https://wa.me/+17869193887?text=Hello%20ElevateCSM%2C%20I'd%20like%20to%20know%20more%20about%20your%20services"
+            href="https://wa.me/+12018998246?text=Hello%20ElevateCSM%2C%20I'd%20like%20to%20know%20more%20about%20your%20services"
             target="_blank"
             rel="noopener noreferrer"
             whileTap={{ scale: 0.95 }}
